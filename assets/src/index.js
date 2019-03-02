@@ -1,7 +1,7 @@
 const SVG_NS = "http://www.w3.org/2000/svg";
 
 
-function wait(duration = 100) {
+function wait(duration=40) {
     return new Promise(resolve => setTimeout(resolve, duration));
 }
 
@@ -27,6 +27,9 @@ function setAttrs(el, attrs) {
 function move(el, xDistance, yDistance) {
     // el.cx did not work for some reason but .setAttribute does
     // el.setAttribute("cx", "50");
+    if (typeof yDistance === 'undefined') {
+        yDistance = xDistance;
+    }
     newX = add(el.getAttribute("cx"), xDistance);
     newY = add(el.getAttribute("cx"), yDistance);
 
@@ -48,7 +51,7 @@ function makeCircle() {
         fill: randomColor(),
         cx: "0",
         cy: "0",
-        r: "30",
+        r: "10",
     };
     var circle = document.createElementNS(SVG_NS, 'circle');
     setAttrs(circle, defaultAttrs);
@@ -62,9 +65,9 @@ function animate(svg) {
     svg.appendChild(shape);
 
     var p = Promise.resolve();
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 300; i++) {
         p = p.then(wait)
-            .then(() => move(shape, 10, 10));
+            .then(() => move(shape, 1));
     }
     p.then(() => svg.removeChild(shape));
 
