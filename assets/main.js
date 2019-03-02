@@ -10,7 +10,7 @@ function wait(duration = 30) {
 /**
  * Set key-value attributes on an element.
  */
-function setAttrs(el, attrs, forceStringValues = true) {
+function setAttrs(el, attrs) {
     for (const [k, v] of Object.entries(attrs)) {
         el.setAttribute(k, v);
     };
