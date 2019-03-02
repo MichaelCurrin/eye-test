@@ -5,10 +5,13 @@ function wait(duration = 100) {
     return new Promise(resolve => setTimeout(resolve, duration));
 }
 
+
 // Add a numeric value to text value and return as text.
 function add(text, val) {
     return (parseInt(text) + val).toString();
 }
+
+
 /** Set key-value attributes on an element.
  * TODO: Convert numeric values to strings.
  */
@@ -17,6 +20,7 @@ function setAttrs(el, attrs) {
         el.setAttribute(k, v);
     };
 }
+
 
 // Take distance rather than coordinate
 function move(el, xDistance, yDistance) {
@@ -31,10 +35,12 @@ function move(el, xDistance, yDistance) {
     });
 }
 
+
 // https://stackoverflow.com/questions/1484506/random-color-generator
 function randomColor(el) {
     return '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
 }
+
 
 function draw() {
     let svg = document.getElementById('mySVG');
