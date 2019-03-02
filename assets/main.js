@@ -1,12 +1,13 @@
 const SVG_NS = "http://www.w3.org/2000/svg";
 
 
+/** Return a promise which resolves after a number of milliseconds. **/
 function wait(duration = 30) {
     return new Promise(resolve => setTimeout(resolve, duration));
 }
 
 
-// Add a numeric value to text value and return as text.
+/** Add a numeric value to text value and return as text. **/
 function add(text, val) {
     return (parseInt(text) + val).toString();
 }
@@ -14,6 +15,7 @@ function add(text, val) {
 
 /**
  * Set key-value attributes on an element.
+ *
  * TODO: Convert numeric values to strings.
  */
 function setAttrs(el, attrs) {
@@ -23,7 +25,11 @@ function setAttrs(el, attrs) {
 }
 
 
-// Take distance rather than coordinate
+/**
+ * Move a given SVG circle to a target number of pixels in a direction.
+ *
+ * If only X distance is given, it is used for both X and Y.
+ */
 function move(el, xDistance, yDistance) {
     // el.cx did not work for some reason but .setAttribute does
     // el.setAttribute("cx", "50");
@@ -40,12 +46,21 @@ function move(el, xDistance, yDistance) {
 }
 
 
-// https://stackoverflow.com/questions/1484506/random-color-generator
+/**
+ * Generate random hex color and return as string.
+ *
+ * Based on: https://stackoverflow.com/questions/1484506/random-color-generator
+ */
 function randomColor(el) {
     return '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
 }
 
 
+/**
+ * Make a circle shape using given or default attributes and return it.
+ *
+ * @param {object} attrs Options associative array of attributes to set on the new circle.
+ */
 function makeCircle(attrs) {
     if (!attrs) {
         attrs = {
@@ -62,7 +77,9 @@ function makeCircle(attrs) {
     return circle;
 }
 
-
+/**
+ * Create a randomly colored circle on the given SVG and move it gradually to a point.
+ */
 function animate(svg) {
     var shape = makeCircle();
     svg.appendChild(shape);
@@ -77,6 +94,9 @@ function animate(svg) {
 }
 
 
+/**
+ * Calculate how the Euclidean distance between two points.
+ */
 function distanceTravelled(shape) {
     var initalCx = 0;
     var initalCy = 0;
@@ -89,6 +109,9 @@ function distanceTravelled(shape) {
 }
 
 
+/**
+ * Calculate the average of an array of numbers.
+ */
 function average(values) {
     var count = values.length;
     if (!count) {
@@ -101,6 +124,9 @@ function average(values) {
 }
 
 
+/**
+ * Delete the moving shape element.
+ */
 function deleteMovingShape() {
     var shape = document.getElementById('moving-shape')
     if (shape) {
@@ -109,6 +135,13 @@ function deleteMovingShape() {
 }
 
 
+/**
+ * Start the game.
+ *
+ * In the given SVG space, start with a moving shape. When there is click event in the space,
+ * log the stats, destroy the shape and create a new one. The stats are persisted throughout
+ * the session within this function.
+ */
 function play(svg) {
     var distances = [];
 
@@ -127,6 +160,12 @@ function play(svg) {
 }
 
 
+/**
+ * Setup the marker and play button in the SVG space.
+ *
+ * When the button is clicked, reset the moving shape and the stats and start with a fresh
+ * shape and empty stats.
+ */
 function setup() {
     var svg = document.getElementById('mySVG');
 
