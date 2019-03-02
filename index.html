@@ -10,12 +10,18 @@
     <link rel="stylesheet" href="/assets/main.css" />
 </head>
 
-<body onload="draw()">
-    <div id="bg">
-        <svg id="mySVG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="600"
-            height="600"></svg>
+<body onload="setup()">
+    <h1>Eye Test - Peripheral Color Vision</h1>
+    <h2>Instructions</h2>
+    <p>Close one eye and look at the grey marker. A shape with a random color will appear from a corner and move
+        towards the marker. When you can identify its color, click anywhere in the space. The stats for the round will
+        be logged in the JS console and a new circle will appear.</p>
+    <p>Click the button to restart the game and reset your stats.</p>
 
-        <button id="button-ok">I know it!</button>
+    <button id="play">Start over</button>
+    <div id="bg">
+        <svg id="mySVG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="800"
+            height="600"></svg>
     </div>
 </body>
 

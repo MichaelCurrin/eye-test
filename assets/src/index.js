@@ -49,6 +49,7 @@ function randomColor(el) {
 function makeCircle(attrs) {
     if (!attrs) {
         attrs = {
+            id: 'moving-shape',
             fill: randomColor(),
             cx: "0",
             cy: "0",
@@ -82,7 +83,7 @@ function distanceTravelled(shape) {
     var cx = shape.getAttribute('cx');
     var cy = shape.getAttribute('cx');
 
-    var distance = Math.sqrt((cx - initalCx)**2 + (cy - initalCy)**2)
+    var distance = Math.sqrt((cx - initalCx) ** 2 + (cy - initalCy) ** 2)
 
     return parseInt(distance);
 }
@@ -96,14 +97,41 @@ function average(values) {
 
     var total = values.reduce((a, b) => a + b, 0);
 
-    return (total/count)
+    return (total / count)
 }
 
 
-function draw() {
+function deleteMovingShape() {
+    var shape = document.getElementById('moving-shape')
+    if (shape) {
+        shape.remove();
+    }
+}
+
+
+function play(svg) {
+    var distances = [];
+
+    console.log('Begin!');
+    var shape = animate(svg);
+
+    svg.onclick = function () {
+        var distance = distanceTravelled(shape);
+        distances.push(distance);
+        avg = average(distances);
+        console.log(`${distances.length}) Distance: ${distance} px. Avg: ${avg.toFixed(1)} px.`);
+
+        deleteMovingShape();
+        shape = animate(svg);
+    };
+}
+
+
+function setup() {
     var svg = document.getElementById('mySVG');
 
     var marker = makeCircle({
+        id: 'marker',
         fill: 'grey',
         cx: "400",
         cy: "400",
@@ -111,18 +139,9 @@ function draw() {
     })
     svg.appendChild(marker);
 
-    var shape = animate(svg);
-    var okButton = document.getElementById('button-ok');
-    var distances = [];
-    okButton.addEventListener("click", function () {
-            var distance = distanceTravelled(shape);
-            distances.push(distance);
-            avg = average(distances);
-            console.log(`Distance: ${distance} px (avg: ${avg.toFixed(1)} px)`);
-
-            svg.removeChild(shape);
-
-            shape = animate(svg);
-        }
-    )
+    var playButton = document.getElementById('play');
+    playButton.onclick = function () {
+        deleteMovingShape();
+        play(svg);
+    };
 }
