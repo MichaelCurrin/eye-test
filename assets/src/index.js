@@ -1,7 +1,7 @@
 const SVG_NS = "http://www.w3.org/2000/svg";
 
 
-function wait(duration=40) {
+function wait(duration = 40) {
     return new Promise(resolve => setTimeout(resolve, duration));
 }
 
@@ -46,15 +46,17 @@ function randomColor(el) {
 }
 
 
-function makeCircle() {
-    var defaultAttrs = {
-        fill: randomColor(),
-        cx: "0",
-        cy: "0",
-        r: "10",
-    };
+function makeCircle(attrs) {
+    if (!attrs) {
+        attrs = {
+            fill: randomColor(),
+            cx: "0",
+            cy: "0",
+            r: "10",
+        };
+    }
     var circle = document.createElementNS(SVG_NS, 'circle');
-    setAttrs(circle, defaultAttrs);
+    setAttrs(circle, attrs);
 
     return circle;
 }
@@ -77,6 +79,14 @@ function animate(svg) {
 
 function draw() {
     var svg = document.getElementById('mySVG');
+
+    var marker = makeCircle({
+        fill: 'grey',
+        cx: "400",
+        cy: "400",
+        r: "10"
+    })
+    svg.appendChild(marker);
 
     var c = Promise.resolve();
     for (let j = 0; j < 10; j++) {
