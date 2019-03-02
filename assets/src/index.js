@@ -12,7 +12,8 @@ function add(text, val) {
 }
 
 
-/** Set key-value attributes on an element.
+/**
+ * Set key-value attributes on an element.
  * TODO: Convert numeric values to strings.
  */
 function setAttrs(el, attrs) {
@@ -42,35 +43,40 @@ function randomColor(el) {
 }
 
 
-function draw() {
-    let svg = document.getElementById('mySVG');
+function makeCircle() {
+    var defaultAttrs = {
+        fill: randomColor(),
+        cx: "0",
+        cy: "0",
+        r: "30",
+    };
+    var circle = document.createElementNS(SVG_NS, 'circle');
+    setAttrs(circle, defaultAttrs);
 
-    let c = Promise.resolve();
-    // Check scope. all the shapes are drawing at once.
-    // Use more functions.
+    return circle;
+}
+
+
+function animate(svg) {
+    var shape = makeCircle();
+    svg.appendChild(shape);
+
     var p = Promise.resolve();
-    for (j = 0; j < 10; j++) {
-        c = c.then(function () {
-            let defaultAttrs = {
-                fill: randomColor(),
-                cx: "0",
-                cy: "0",
-                r: "30",
-            };
-            console.log(defaultAttrs)
-            // Create circle.
-            let circle = document.createElementNS(SVG_NS, 'circle');
-            setAttrs(circle, defaultAttrs);
-
-            svg.appendChild(circle);
-
-
-            for (let i = 0; i < 20; i++) {
-                p = p.then(wait)
-                    // .then(() => setAttrs(circle, {cx: "20", cy: "30"}))
-                    .then(() => move(circle, 10, 10));
-            }
-            p.then(() => svg.removeChild(circle));
-        })
+    for (let i = 0; i < 20; i++) {
+        p = p.then(wait)
+            .then(() => move(shape, 10, 10));
     }
-};
+    p.then(() => svg.removeChild(shape));
+
+    return p;
+}
+
+
+function draw() {
+    var svg = document.getElementById('mySVG');
+
+    var c = Promise.resolve();
+    for (let j = 0; j < 10; j++) {
+        c = c.then(() => animate(svg));
+    }
+}
