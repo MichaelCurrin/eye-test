@@ -68,7 +68,7 @@ function animate(svg) {
     svg.appendChild(shape);
 
     var p = Promise.resolve();
-    for (let i = 0; i < 400; i++) {
+    for (let i = 0; i < 500; i++) {
         p = p.then(wait)
             .then(() => move(shape, 1));
     }
@@ -133,8 +133,8 @@ function setup() {
     var marker = makeCircle({
         id: 'marker',
         fill: 'grey',
-        cx: "400",
-        cy: "400",
+        cx: "500",
+        cy: "500",
         r: "10"
     })
     svg.appendChild(marker);
