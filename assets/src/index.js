@@ -1,5 +1,6 @@
 const SVG_NS = "http://www.w3.org/2000/svg";
 
+
 function wait(duration = 100) {
     return new Promise(resolve => setTimeout(resolve, duration));
 }
