@@ -7,18 +7,10 @@ function wait(duration = 30) {
 }
 
 
-/** Add a numeric value to text value and return as text. **/
-function add(text, val) {
-    return (parseInt(text) + val).toString();
-}
-
-
 /**
  * Set key-value attributes on an element.
- *
- * TODO: Convert numeric values to strings.
  */
-function setAttrs(el, attrs) {
+function setAttrs(el, attrs, forceStringValues = true) {
     for (const [k, v] of Object.entries(attrs)) {
         el.setAttribute(k, v);
     };
@@ -34,8 +26,8 @@ function moveCircle(el, xDistance, yDistance) {
     if (typeof yDistance === 'undefined') {
         yDistance = xDistance;
     }
-    newX = add(el.getAttribute('cx'), xDistance);
-    newY = add(el.getAttribute('cx'), yDistance);
+    newX = parseInt(el.getAttribute('cx')) + xDistance;
+    newY = parseInt(el.getAttribute('cx')) + yDistance;
 
     setAttrs(el, {
         cx: newX,
