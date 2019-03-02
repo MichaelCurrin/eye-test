@@ -26,18 +26,16 @@ function setAttrs(el, attrs) {
 
 
 /**
- * Move a given SVG circle to a target number of pixels in a direction.
+ * Move a given SVG circle by target number of X and Y pixels.
  *
  * If only X distance is given, it is used for both X and Y.
  */
-function move(el, xDistance, yDistance) {
-    // el.cx did not work for some reason but .setAttribute does
-    // el.setAttribute("cx", "50");
+function moveCircle(el, xDistance, yDistance) {
     if (typeof yDistance === 'undefined') {
         yDistance = xDistance;
     }
-    newX = add(el.getAttribute("cx"), xDistance);
-    newY = add(el.getAttribute("cx"), yDistance);
+    newX = add(el.getAttribute('cx'), xDistance);
+    newY = add(el.getAttribute('cx'), yDistance);
 
     setAttrs(el, {
         cx: newX,
@@ -87,7 +85,7 @@ function animate(svg) {
     var p = Promise.resolve();
     for (let i = 0; i < 500; i++) {
         p = p.then(wait)
-            .then(() => move(shape, 1));
+            .then(() => moveCircle(shape, 1));
     }
 
     return shape;
@@ -95,15 +93,10 @@ function animate(svg) {
 
 
 /**
- * Calculate how the Euclidean distance between two points.
+ * Calculate how the Euclidean distance in pixels between two points and return as an integer.
  */
-function distanceTravelled(shape) {
-    var initalCx = 0;
-    var initalCy = 0;
-    var cx = shape.getAttribute('cx');
-    var cy = shape.getAttribute('cx');
-
-    var distance = Math.sqrt((cx - initalCx) ** 2 + (cy - initalCy) ** 2)
+function distanceTravelled(newX, newY, oldX, oldY) {
+    var distance = Math.sqrt((newX - oldX) ** 2 + (newY - oldY) ** 2)
 
     return parseInt(distance);
 }
@@ -136,7 +129,7 @@ function deleteMovingShape() {
 
 
 /**
- * Start the game.
+ * Start the eye test game.
  *
  * In the given SVG space, start with a moving shape. When there is click event in the space,
  * log the stats, destroy the shape and create a new one. The stats are persisted throughout
@@ -149,7 +142,7 @@ function play(svg) {
     var shape = animate(svg);
 
     svg.onclick = function () {
-        var distance = distanceTravelled(shape);
+        var distance = distanceTravelled(shape.getAttribute('cx'), shape.getAttribute('cy'), 0, 0);
         distances.push(distance);
         avg = average(distances);
         console.log(`${distances.length}) Distance: ${distance} px. Avg: ${avg.toFixed(1)} px.`);
