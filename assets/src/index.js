@@ -1,7 +1,7 @@
 const SVG_NS = "http://www.w3.org/2000/svg";
 
 
-function wait(duration = 40) {
+function wait(duration = 30) {
     return new Promise(resolve => setTimeout(resolve, duration));
 }
 
@@ -67,13 +67,36 @@ function animate(svg) {
     svg.appendChild(shape);
 
     var p = Promise.resolve();
-    for (let i = 0; i < 300; i++) {
+    for (let i = 0; i < 400; i++) {
         p = p.then(wait)
             .then(() => move(shape, 1));
     }
-    p.then(() => svg.removeChild(shape));
 
-    return p;
+    return shape;
+}
+
+
+function distanceTravelled(shape) {
+    var initalCx = 0;
+    var initalCy = 0;
+    var cx = shape.getAttribute('cx');
+    var cy = shape.getAttribute('cx');
+
+    var distance = Math.sqrt((cx - initalCx)**2 + (cy - initalCy)**2)
+
+    return parseInt(distance);
+}
+
+
+function average(values) {
+    var count = values.length;
+    if (!count) {
+        return 0;
+    }
+
+    var total = values.reduce((a, b) => a + b, 0);
+
+    return (total/count)
 }
 
 
@@ -88,8 +111,18 @@ function draw() {
     })
     svg.appendChild(marker);
 
-    var c = Promise.resolve();
-    for (let j = 0; j < 10; j++) {
-        c = c.then(() => animate(svg));
-    }
+    var shape = animate(svg);
+    var okButton = document.getElementById('button-ok');
+    var distances = [];
+    okButton.addEventListener("click", function () {
+            var distance = distanceTravelled(shape);
+            distances.push(distance);
+            avg = average(distances);
+            console.log(`Distance: ${distance} px (avg: ${avg.toFixed(1)} px)`);
+
+            svg.removeChild(shape);
+
+            shape = animate(svg);
+        }
+    )
 }
