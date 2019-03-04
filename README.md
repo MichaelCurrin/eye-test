@@ -3,6 +3,10 @@
 
 The idea is that your eye's ability to detect colors outside the centre area is poor. We worse at red or green then blue. I came across an online test which showed this. I couldn't find it again years later, so I made my own one.
 
+## Example
+
+![Example image](example.png)
+
 ## Installation
 
 There are no system requirements. You just need to be able to run a web server and a browser.
