@@ -1,5 +1,5 @@
 # Eye Test
-> A simple website with a test your eyes' peripheral color recognition ability
+> A simple website to test the peripheral color sensitivity of your eyes
 
 The idea is that your eye's ability to detect colors outside the centre area is poor. We worse at red or green then blue. I came across an online test which showed this. I couldn't find it again years later, so I made my own one.
 
