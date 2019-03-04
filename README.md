@@ -11,9 +11,10 @@ There are no system requirements. You just need to be able to run a web server a
 
 1. Navigate to the repo's top-level directory.
 2. Start a web server with your preferred approach.
-   - Using Python:
+    - Using Python:
         ```
         python3 -m http.server
         python2 -m SimpleHTTPServer
         ```
+    - Static server one-liners list - [gist](https://gist.github.com/willurd/5720255)
 3. Open the browser and follow the on-screen instructions. Open the browser console if you want to see the stats which are logged.
